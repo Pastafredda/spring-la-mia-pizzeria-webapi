@@ -1,0 +1,2 @@
+INSERT INTO db_pizzeria.pizze (id, descrizione, foto, name, prezzo)VALUES(1, 'la tipica pizza napoletana, condita con pomodoro, mozzarella, basilico fresco, sale e olio', 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Pizza_Margherita_stu_spivack.jpg', 'Margherita', 5.00);
+INSERT INTO db_pizzeria.pizze(id, descrizione, foto, name, prezzo)VALUES(2, 'Gli ingredienti base di questa pizza sono il pomodoro, aglio, olio e origano', 'https://upload.wikimedia.org/wikipedia/commons/1/11/Pizza_marinara.jpg', 'Marinara', 4.00);
