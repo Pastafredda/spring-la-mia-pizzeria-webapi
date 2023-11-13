@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('Pizza Show')"></head>
 <body class="bg-dark">
-<div class="container-fluid">
+<div class="container">
     <h1 class="text-light">Dettagli delle pizze</h1>
     <div th:object="${pizza}">
         <h3 th:text="*{name}" class="text-light"></h3>
@@ -15,7 +15,7 @@
             <dd th:text="|*{prezzo} €|" class="text-light"></dd>
         </dl>
     </div>
-    <a th:href="@{/pizze}">indietro</a>
+    <a th:href="@{/pizze}" class="btn btn-primary">indietro</a>
 </div>
 </body>
 </html>

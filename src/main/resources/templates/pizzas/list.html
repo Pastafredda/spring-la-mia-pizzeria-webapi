@@ -2,8 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('Pizza List')"></head>
 <body class="bg-dark">
-<div class="container-fluid">
+<div class="container">
     <h1 class="text-light">Lista di pizze</h1>
+    <a th:href="@{/pizze/create}" class="btn btn-primary">Nuova pizza</a>
+    <hr>
     <form th:action="@{/pizze}" method="GET">
         <div class="input-group">
             <input

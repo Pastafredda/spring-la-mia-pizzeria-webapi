@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -50,10 +47,20 @@ public class PizzaController {
         }
     }
 
-    //metodo per il form di creazione
+    //metodo che mostra il form di creazione
+    //usiamo il model per prendere una nuova Pizza e inserirla nel th:object in create.html
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("pizza", new Pizza());
         return "pizzas/create";
+    }
+
+    //controller che prende i parametri in post
+    @PostMapping("/create")
+    public String store(Pizza formpizza) {
+        //salvo il libro sul database tramite pizzarepository
+        Pizza savedPizza = pizzaRepository.save(formpizza);
+        return "redirect:/pizze";
     }
 
 }

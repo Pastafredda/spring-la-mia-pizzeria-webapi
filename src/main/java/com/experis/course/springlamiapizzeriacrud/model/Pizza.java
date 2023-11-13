@@ -1,6 +1,9 @@
 package com.experis.course.springlamiapizzeriacrud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
@@ -10,11 +13,19 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String name;
     @Lob
+    @NotBlank
+    @Size(min = 3, max = 255)
     private String descrizione;
     @Lob
+    @NotBlank
     private String foto;
+    @NotBlank
+    @DecimalMin(value = "0.01", message = "il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
 
     public Integer getId() {
