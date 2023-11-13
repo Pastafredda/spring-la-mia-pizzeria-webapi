@@ -3,25 +3,40 @@
 <head>
     <head th:insert="fragments/resources :: headResources('Pizza List')"></head>
 </head>
-<body>
-<h1>Lista di pizze</h1>
-<table class="table">
-    <thead>
-    <tr>
-        <th>name</th>
-        <th>descrizione</th>
-        <th>foto</th>
-        <th>prezzo</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="pizza : ${list}">
-        <td th:text="${pizza.name}"></td>
-        <td th:text="${pizza.descrizione}"></td>
-        <td><img style="height:120px" th:src="${pizza.foto}" alt=""></td>
-        <td th:text="${pizza.prezzo}"></td>
-    </tr>
-    </tbody>
-</table>
+<body class="bg-dark">
+<div class="container-fluid">
+    <h1 class="text-light">Lista di pizze</h1>
+    <form th:action="@{/pizze}" method="GET">
+        <div class="input-group">
+            <input
+                    type="text"
+                    placeholder="Cerca una pizza"
+                    class="form-control"
+                    name="search"
+                    th:value="${param.search}"
+            >
+            <button class="btn btn-primary" type="submit">Cerca</button>
+        </div>
+    </form>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>descrizione</th>
+            <th>prezzo</th>
+            <th>visualizza dettagli</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pizza : ${list}" th:object="${pizza}">
+            <td th:text="*{name}"></td>
+            <td th:text="*{descrizione}"></td>
+            <td th:text="|*{prezzo} €|"></td>
+            <td><a th:href="@{/pizze/show/{id}(id=*{id})}"><i class="fa-solid fa-pizza-slice"></i></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

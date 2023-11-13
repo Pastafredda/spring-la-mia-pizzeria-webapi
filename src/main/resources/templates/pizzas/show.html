@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Pizza List')"></head>
+
+<body class="bg-dark">
+<div class="container-fluid">
+    <h1 class="text-light">Dettagli delle pizze</h1>
+    <div th:object="${pizza}">
+        <h3 th:text="*{name}" class="text-light"></h3>
+        <dl>
+            <dt class="text-light">Descrizione</dt>
+            <dd th:text="*{descrizione}" class="text-light"></dd>
+            <dt class="text-light">Foto</dt>
+            <dd><img style="height:120px" th:src="*{foto}" alt=""></dd>
+            <dt class="text-light">€</dt>
+            <dd th:text="|*{prezzo} €|" class="text-light"></dd>
+        </dl>
+    </div>
+    <a th:href="@{/pizze}">indietro</a>
+</div>
+</body>
+</html>
