@@ -50,4 +50,10 @@ public class PizzaController {
         }
     }
 
+    //metodo per il form di creazione
+    @GetMapping("/create")
+    public String create() {
+        return "pizzas/create";
+    }
+
 }
