@@ -2,10 +2,12 @@ package com.experis.course.springlamiapizzeriacrud.controller;
 
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.repository.PizzaRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -56,8 +58,15 @@ public class PizzaController {
     }
 
     //controller che prende i parametri in post
+    //tramite il valid, validiamo le annotazioni che abbiamo inserito nella classe Pizza
+    //bindingResult ci permette ci catchare gli errori
+    //model attribute per ricaricare la pagina con i dati sbagliati inseriti dall'utente(l'attributo pizza che abbiamo inserito nel controller sopra)
     @PostMapping("/create")
-    public String store(Pizza formpizza) {
+    public String store(@Valid @ModelAttribute("pizza") Pizza formpizza, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            //se ci sono errori ricarico la pagina del form create
+            return "/pizzas/create";
+        }
         //salvo il libro sul database tramite pizzarepository
         Pizza savedPizza = pizzaRepository.save(formpizza);
         return "redirect:/pizze";

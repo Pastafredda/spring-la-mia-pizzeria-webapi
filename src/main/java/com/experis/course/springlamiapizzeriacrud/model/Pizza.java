@@ -3,6 +3,7 @@ package com.experis.course.springlamiapizzeriacrud.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -14,17 +15,17 @@ public class Pizza {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank
-    @Size(min = 3, max = 30)
+    @NotBlank(message = "Il nome non può essere vuoto")
+    @Size(min = 3, max = 30, message = "Inserisci un nome tra i 3 e i 30 caratteri")
     private String name;
     @Lob
-    @NotBlank
-    @Size(min = 3, max = 255)
+    @NotBlank(message = "La descrizione non può essere vuota")
+    @Size(min = 3, max = 255, message = "inserisci una descrizione tra i 3 e i 255 caratteri")
     private String descrizione;
     @Lob
-    @NotBlank
+    @NotBlank(message = "La foto non può essere vuota")
     private String foto;
-    @NotBlank
+    @NotNull(message = "Inserisci un valore")
     @DecimalMin(value = "0.01", message = "il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
 
