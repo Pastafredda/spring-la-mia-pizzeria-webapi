@@ -42,7 +42,8 @@
                     class="fa-solid fa-mortar-pestle"></i></a>
             </td>
             <td>
-                <form method="POST" th:action="@{/pizze/delete/{id}(id=*{id})}">
+                <form method="POST" th:action="@{/pizze/delete/{id}(id=*{id})}"
+                      onsubmit="return confirm('Vuoi davvero eliminare?')">
                     <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
                 </form>
             </td>
