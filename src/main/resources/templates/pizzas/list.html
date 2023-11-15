@@ -3,6 +3,10 @@
 <head th:insert="fragments/resources :: headResources('Pizza List')"></head>
 <body class="bg-dark">
 <div class="container">
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
+    </div>
     <h1 class="text-light">Lista di pizze</h1>
     <a th:href="@{/pizze/create}" class="btn btn-primary">Nuova pizza</a>
     <hr>

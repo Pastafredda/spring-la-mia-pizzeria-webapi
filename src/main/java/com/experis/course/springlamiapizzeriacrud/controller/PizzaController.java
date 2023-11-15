@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -101,12 +102,13 @@ public class PizzaController {
 
     //metodo per eliminare una pizza dal db
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         //recuperare la pizza con l'id
         Optional<Pizza> result = pizzaRepository.findById(id);
         //se esiste eliminarla
         if (result.isPresent()) {
             pizzaRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "La pizza " + result.get().getName() + " è stata eliminata");
             return "redirect:/pizze";
         } else {
             //eccezione
