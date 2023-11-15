@@ -65,11 +65,53 @@ public class PizzaController {
     public String store(@Valid @ModelAttribute("pizza") Pizza formpizza, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             //se ci sono errori ricarico la pagina del form create
-            return "/pizzas/create";
+            return "pizzas/create";
         }
         //salvo il libro sul database tramite pizzarepository
         Pizza savedPizza = pizzaRepository.save(formpizza);
         return "redirect:/pizze";
+    }
+
+    //metodo per la modifica
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        //recupero dei dati della pizza a partire dall'id
+        Optional<Pizza> result = pizzaRepository.findById(id);
+        if (result.isPresent()) {
+            //aggiunta pizza come attributo model
+            model.addAttribute("pizza", result.get());
+            //restituiamo il template di modifica
+            return "pizzas/edit";
+        } else {
+            //eccezione
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id della pizza " + id + " non è stato trovato");
+        }
+    }
+
+    //metodo che riceve il submit e salva le modifiche
+    @PostMapping("/edit/{id}")
+    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+        //valido la pizza
+        if (bindingResult.hasErrors()) {
+            return "pizzas/edit";
+        }
+        Pizza savedPizza = pizzaRepository.save(formPizza);
+        return "redirect:/pizze/show/" + savedPizza.getId();
+    }
+
+    //metodo per eliminare una pizza dal db
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        //recuperare la pizza con l'id
+        Optional<Pizza> result = pizzaRepository.findById(id);
+        //se esiste eliminarla
+        if (result.isPresent()) {
+            pizzaRepository.deleteById(id);
+            return "redirect:/pizze";
+        } else {
+            //eccezione
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id della pizza " + id + " non è stato trovato");
+        }
     }
 
 }

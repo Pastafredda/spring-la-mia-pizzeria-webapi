@@ -25,7 +25,9 @@
             <th>name</th>
             <th>descrizione</th>
             <th>prezzo</th>
-            <th>visualizza dettagli</th>
+            <th>dettagli</th>
+            <th>modifica</th>
+            <th>elimina</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +35,17 @@
             <td th:text="*{name}"></td>
             <td th:text="*{descrizione}"></td>
             <td th:text="|*{prezzo} €|"></td>
-            <td><a th:href="@{/pizze/show/{id}(id=*{id})}"><i class="fa-solid fa-pizza-slice"></i></a></td>
+            <td><a th:href="@{/pizze/show/{id}(id=*{id})}" class="btn btn-primary" title="dettagli"><i
+                    class="fa-solid fa-pizza-slice"></i></a>
+            </td>
+            <td><a th:href="@{/pizze/edit/{id}(id=*{id})}" class="btn btn-primary" title="modifica"><i
+                    class="fa-solid fa-mortar-pestle"></i></a>
+            </td>
+            <td>
+                <form method="POST" th:action="@{/pizze/delete/{id}(id=*{id})}">
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

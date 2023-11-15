@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Pizza List')"></head>
+<body class="bg-dark">
+<div class="container">
+    <h1 class="text-light">Modifica pizza</h1>
+    <hr>
+    <form th:action="@{/pizze/edit/{id}(id = ${pizza.id})}"
+          id="edit-pizza"
+          method="POST"
+          th:object="${pizza}"
+          class="row"
+    >
+        <div class="mb-3 col-3" th:insert="fragments/components :: formField('text','Nome', 'name')">
+
+        </div>
+        <div class="mb-3 col-3" th:insert="fragments/components :: formField('number','Prezzo €', 'prezzo')">
+
+        </div>
+        <div class="mb-3 col-6" th:insert="fragments/components :: formField('text','Foto', 'foto')">
+
+        </div>
+        <div class="mb-3 col-12">
+            <label for="descrizione" class="form-label text-light">Descrizione</label>
+            <textarea class="form-control" id="descrizione" name="descrizione"
+                      th:class="${#fields.hasErrors('descrizione')} ? 'form-control is-invalid' : 'form-control'"
+                      th:field="*{descrizione}"></textarea>
+            <div th:if="${#fields.hasErrors('descrizione')}" class="invalid-feedback">
+                <ul>
+                    <li th:each="err : ${#fields.errors('descrizione')}" th:text="${err}"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Salva</button>
+            <a th:href="@{/pizze}" class="btn btn-primary">Indietro</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
