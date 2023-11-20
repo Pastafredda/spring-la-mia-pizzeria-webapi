@@ -28,13 +28,17 @@
                     <th>Nome offerta</th>
                     <th>Inizio offerta</th>
                     <th>Fine offerta</th>
+                    <th>Modifica</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="offerta : *{offerteSpeciali}" th:object="${offerta}">
-                    <th th:text="*{titolo}"></th>
-                    <th th:text="*{dataInizio}"></th>
-                    <th th:text="*{dataFine}"></th>
+                    <td th:text="*{titolo}"></td>
+                    <td th:text="*{dataInizio}"></td>
+                    <td th:text="*{dataFine}"></td>
+                    <td><a th:href="@{/offerte/edit/{id}(id=*{id})}" class="btn btn-primary" title="modifica"><i
+                            class="fa-solid fa-mortar-pestle"></i></a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

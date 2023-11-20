@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/resources :: headResources('Pizza List')"></head>
+<head th:insert="fragments/resources :: headResources('Edit Offerta')"></head>
 <body class="bg-dark">
 <div class="container">
     <div class="my-4">
-        <h1 class="text-light">Crea una nuova offerta per</h1>
+        <h1 class="text-light">Modifica offerta per</h1>
         <h2 class="text-light" th:text="${offerta.pizza.name}"></h2>
     </div>
     <!-- th:object prendiamo l'attributeName del model in offertaController -->
     <form
-            th:action="@{/offerte/create}"
+            th:action="@{'/offerte/edit/' + ${offerta.id}}"
             method="POST"
             id="offerte-form"
             th:object="${offerta}"

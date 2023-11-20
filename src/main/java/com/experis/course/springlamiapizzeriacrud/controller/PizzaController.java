@@ -87,7 +87,6 @@ public class PizzaController {
         if (bindingResult.hasErrors()) {
             return "pizzas/edit";
         }
-
         try {
             Pizza savedPizza = pizzaService.editPizza(formPizza);
             return "redirect:/pizze/show/" + savedPizza.getId();

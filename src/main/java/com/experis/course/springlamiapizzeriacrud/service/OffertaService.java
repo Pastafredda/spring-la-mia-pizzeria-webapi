@@ -1,5 +1,6 @@
 package com.experis.course.springlamiapizzeriacrud.service;
 
+import com.experis.course.springlamiapizzeriacrud.exception.OffertaNotFoundException;
 import com.experis.course.springlamiapizzeriacrud.exception.PizzaNotFoundException;
 import com.experis.course.springlamiapizzeriacrud.model.OffertaSpeciale;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
@@ -32,7 +33,19 @@ public class OffertaService {
         return offertaSpeciale;
     }
 
+    //metodo che salva l'offerta nel database
     public OffertaSpeciale insertOffertaIntoDb(OffertaSpeciale offertaSpeciale) {
+        return offertaRepository.save(offertaSpeciale);
+    }
+
+    //metodo per recuperare tutti i dati
+    public OffertaSpeciale getOfferta(Integer id) throws OffertaNotFoundException {
+        return offertaRepository.findById(id).orElseThrow(() -> new OffertaNotFoundException("Offerta speciale con id: " + id + "non trovato"));
+
+    }
+
+    //metodo per salvare la modifica dell'offerta nel database
+    public OffertaSpeciale updateOffertaIntoDb(OffertaSpeciale offertaSpeciale) {
         return offertaRepository.save(offertaSpeciale);
     }
 }
