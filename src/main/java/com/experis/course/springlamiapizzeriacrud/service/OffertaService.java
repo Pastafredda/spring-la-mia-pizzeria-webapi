@@ -48,4 +48,9 @@ public class OffertaService {
     public OffertaSpeciale updateOffertaIntoDb(OffertaSpeciale offertaSpeciale) {
         return offertaRepository.save(offertaSpeciale);
     }
+
+    //metodo per eliminare la pizza dal database
+    public void deleteOfferta(OffertaSpeciale offertaSpeciale) {
+        offertaRepository.delete(offertaSpeciale);
+    }
 }

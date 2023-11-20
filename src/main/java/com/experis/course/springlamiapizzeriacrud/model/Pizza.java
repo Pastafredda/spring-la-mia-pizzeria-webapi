@@ -31,7 +31,7 @@ public class Pizza {
     @DecimalMin(value = "0.01", message = "il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
 
-    @OneToMany(mappedBy = "pizza")
+    @OneToMany(mappedBy = "pizza", orphanRemoval = true)
     private List<OffertaSpeciale> offerteSpeciali = new ArrayList<>();
 
     public Integer getId() {

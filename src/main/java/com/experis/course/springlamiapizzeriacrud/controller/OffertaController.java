@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/offerte")
@@ -63,5 +64,21 @@ public class OffertaController {
         OffertaSpeciale savedOfferta = offertaService.updateOffertaIntoDb(editOffertaSpeciale);
         //redirect
         return "redirect:/pizze/show/" + editOffertaSpeciale.getPizza().getId();
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            //recupero l'id dell'offerta
+            OffertaSpeciale offertaToDelete = offertaService.getOfferta(id);
+            //cancello l'offerta
+            offertaService.deleteOfferta(offertaToDelete);
+            //redirectAttributes per il messaggio di avvenuta eliminazione
+            redirectAttributes.addFlashAttribute("message", "L'offerta': " + offertaToDelete.getTitolo() + " è stata eliminata");
+            //redirect alla pagina di dettaglio della pizza
+            return "redirect:/pizze/show/" + offertaToDelete.getPizza().getId();
+        } catch (OffertaNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id della pizza " + id + " non è stato trovato");
+        }
     }
 }

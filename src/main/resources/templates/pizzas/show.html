@@ -3,6 +3,10 @@
 <head th:insert="fragments/resources :: headResources('Pizza Show')"></head>
 <body class="bg-dark">
 <div class="container">
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
+    </div>
     <h1 class="text-light">Dettagli delle pizze</h1>
     <div th:object="${pizza}">
         <h3 th:text="*{name}" class="text-light"></h3>
@@ -29,6 +33,7 @@
                     <th>Inizio offerta</th>
                     <th>Fine offerta</th>
                     <th>Modifica</th>
+                    <th>Elimina</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,6 +43,12 @@
                     <td th:text="*{dataFine}"></td>
                     <td><a th:href="@{/offerte/edit/{id}(id=*{id})}" class="btn btn-primary" title="modifica"><i
                             class="fa-solid fa-mortar-pestle"></i></a>
+                    </td>
+                    <td>
+                        <form method="POST" th:action="@{/offerte/delete/{id}(id=*{id})}"
+                              onsubmit="return confirm('Vuoi davvero eliminare?')">
+                            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

@@ -3,6 +3,7 @@
 <head th:insert="fragments/resources :: headResources('Pizza List')"></head>
 <body class="bg-dark">
 <div class="container">
+
     <h1 class="text-light">Modifica pizza</h1>
     <hr>
     <form th:action="@{/pizze/edit/{id}(id = ${pizza.id})}"
