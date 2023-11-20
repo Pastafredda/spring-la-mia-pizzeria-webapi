@@ -6,14 +6,40 @@
     <h1 class="text-light">Dettagli delle pizze</h1>
     <div th:object="${pizza}">
         <h3 th:text="*{name}" class="text-light"></h3>
-        <dl>
-            <dt class="text-light">Descrizione</dt>
-            <dd th:text="*{descrizione}" class="text-light"></dd>
-            <dt class="text-light">Foto</dt>
-            <dd><img style="height:120px" th:src="*{foto}" alt=""></dd>
-            <dt class="text-light">€</dt>
-            <dd th:text="|*{prezzo} €|" class="text-light"></dd>
-        </dl>
+        <section>
+            <dl>
+                <dt class="text-light">Descrizione</dt>
+                <dd th:text="*{descrizione}" class="text-light"></dd>
+                <dt class="text-light">Foto</dt>
+                <dd><img style="height:120px" th:src="*{foto}" alt=""></dd>
+                <dt class="text-light">€</dt>
+                <dd th:text="|*{prezzo} €|" class="text-light"></dd>
+            </dl>
+        </section>
+        <section>
+            <div class="d-flex align-items-center my-4">
+                <h2 class="text-light">Offerte speciali</h2>
+                <a class="mx-4 fs-3" th:href="@{/offerte/create(pizzaId=*{id})}"><i class="fa-solid fa-circle-plus"></i></a>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nome offerta</th>
+                    <th>Inizio offerta</th>
+                    <th>Fine offerta</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="offerta : *{offerteSpeciali}" th:object="${offerta}">
+                    <th th:text="*{titolo}"></th>
+                    <th th:text="*{dataInizio}"></th>
+                    <th th:text="*{dataFine}"></th>
+                </tr>
+                </tbody>
+            </table>
+            <div th:if="*{offerteSpeciali.size() == 0 }" class="alert alert-info my-3">La lista è vuota</div>
+        </section>
     </div>
     <a th:href="@{/pizze}" class="btn btn-primary">indietro</a>
 </div>
