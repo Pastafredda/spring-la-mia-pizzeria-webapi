@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Ingredienti List')"></head>
+<body class="bg-dark">
+<div class="container">
+    <h1 class="text-light my-4">Qui la lista di tutti gli ingredienti</h1>
+    <section>
+        <form
+                th:action="@{/ingredienti}"
+                id="ingrediente-form"
+                method="POST"
+                th:object="${ingredientiObj}"
+                class="row"
+        >
+            <div class="col-5 my-4"
+                 th:insert="fragments/components :: formField('text','Nome ingrediente', 'name')">
+
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Salva</button>
+            </div>
+        </form>
+    </section>
+    <section>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Nome ingrediente</th>
+                <th>Elimina ingrediente</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-light"
+                th:each="ingrediente : ${listaIngredienti}"
+                th:object="${ingrediente}"
+            >
+                <td th:text="${ingrediente.name}"></td>
+                <td>
+                    <form method="POST" th:action="@{/ingredienti/delete/{id}(id= *{id})}"
+                          onsubmit="return confirm('Vuoi davvero eliminare?')">
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <div class="col-12">
+        <a th:href="@{/pizze}" class="btn btn-primary">Indietro</a>
+    </div>
+</div>
+</body>
+</html>

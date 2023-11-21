@@ -7,7 +7,11 @@
         <span th:text="${message}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
     </div>
-    <h1 class="text-light">Lista di pizze</h1>
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <h1 class="text-light">Lista di pizze</h1>
+        <h2 class="text-light">Vai alla <a th:href="@{/ingredienti}" class="btn btn-primary">lista degli
+            ingredienti</a></h2>
+    </div>
     <a th:href="@{/pizze/create}" class="btn btn-primary">Nuova pizza</a>
     <hr>
     <form th:action="@{/pizze}" method="GET">

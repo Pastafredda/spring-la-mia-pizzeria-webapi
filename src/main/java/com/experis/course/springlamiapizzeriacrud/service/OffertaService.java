@@ -49,7 +49,7 @@ public class OffertaService {
         return offertaRepository.save(offertaSpeciale);
     }
 
-    //metodo per eliminare la pizza dal database
+    //metodo per eliminare l'offerta dal database
     public void deleteOfferta(OffertaSpeciale offertaSpeciale) {
         offertaRepository.delete(offertaSpeciale);
     }

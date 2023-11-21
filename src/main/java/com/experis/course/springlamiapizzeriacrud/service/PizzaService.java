@@ -40,13 +40,9 @@ public class PizzaService {
         }
     }
 
-    //metodo per salvare la pizza nel database
-    public Pizza createPizza(Pizza pizza) {
-        return pizzaRepository.save(pizza);
-    }
 
-    //metodo per la modifica della pizza
-    public Pizza editPizza(Pizza pizza) {
+    //metodo per salvare la pizza nel database, la usiamo sia nella edit che create
+    public Pizza savePizza(Pizza pizza) {
         return pizzaRepository.save(pizza);
     }
 
