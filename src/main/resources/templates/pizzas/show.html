@@ -10,16 +10,28 @@
     <h1 class="text-light">Dettagli delle pizze</h1>
     <div th:object="${pizza}">
         <h3 th:text="*{name}" class="text-light"></h3>
-        <section>
-            <dl>
-                <dt class="text-light">Descrizione</dt>
-                <dd th:text="*{descrizione}" class="text-light"></dd>
-                <dt class="text-light">Foto</dt>
-                <dd><img style="height:120px" th:src="*{foto}" alt=""></dd>
-                <dt class="text-light">€</dt>
-                <dd th:text="|*{prezzo} €|" class="text-light"></dd>
-            </dl>
+        <section class="row">
+            <ul class="list-unstyled col-6">
+                <li class="text-light">Descrizione</li>
+                <li th:text="*{descrizione}" class="text-light"></li>
+                <li class="text-light">Foto</li>
+                <li><img style="height:120px" th:src="*{foto}" alt=""></li>
+                <li class="text-light">€</li>
+                <li th:text="|*{prezzo} €|" class="text-light"></li>
+            </ul>
+            <div class="col-6">
+                <h3 class="text-light">Ingredienti</h3>
+                <ul class="list-unstyled" th:if=" *{ingredienti.size()> 0}">
+                    <li class="text-light" th:each="ingrediente : *{ingredienti}"
+                        th:text="${ingrediente.name}"></li>
+                </ul>
+                <div th:if="*{ingredienti.size() == 0}" class="alert alert-info">
+                    La lista è vuota
+                </div>
+            </div>
         </section>
+
+
         <section>
             <div class="d-flex align-items-center my-4">
                 <h2 class="text-light">Offerte speciali</h2>

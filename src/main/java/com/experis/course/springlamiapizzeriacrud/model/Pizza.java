@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "pizze")
 public class Pizza {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -33,6 +34,17 @@ public class Pizza {
 
     @OneToMany(mappedBy = "pizza", orphanRemoval = true)
     private List<OffertaSpeciale> offerteSpeciali = new ArrayList<>();
+
+    @ManyToMany
+    private List<Ingrediente> ingredienti;
+
+    public List<Ingrediente> getIngredienti() {
+        return ingredienti;
+    }
+
+    public void setIngredienti(List<Ingrediente> ingredienti) {
+        this.ingredienti = ingredienti;
+    }
 
     public Integer getId() {
         return id;

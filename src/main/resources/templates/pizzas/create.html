@@ -13,25 +13,40 @@
             th:object="${pizza}"
             class="row"
     >
-        <!--il th:field sta al posto del name-->
-        <div class="mb-3 col-3" th:insert="fragments/components :: formField('text','Nome', 'name')">
+        <div class="col-8 row">
+            <!--il th:field sta al posto del name-->
+            <div class="mb-3 col-3" th:insert="fragments/components :: formField('text','Nome', 'name')">
 
-        </div>
-        <div class="mb-3 col-3" th:insert="fragments/components :: formField('number','Prezzo €', 'prezzo')">
+            </div>
+            <div class="mb-3 col-3" th:insert="fragments/components :: formField('number','Prezzo €', 'prezzo')">
 
-        </div>
-        <div class="mb-3 col-6" th:insert="fragments/components :: formField('text','Foto', 'foto')">
+            </div>
+            <div class="mb-3 col-7" th:insert="fragments/components :: formField('text','Foto', 'foto')">
 
+            </div>
+            <div class="mb-3 col-8">
+                <label for="descrizione" class="form-label text-light">Descrizione</label>
+                <textarea class="form-control" id="descrizione" name="descrizione"
+                          th:class="${#fields.hasErrors('descrizione')} ? 'form-control is-invalid' : 'form-control'"
+                          th:field="*{descrizione}"></textarea>
+                <div th:if="${#fields.hasErrors('descrizione')}" class="invalid-feedback">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('descrizione')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="mb-3 col-12">
-            <label for="descrizione" class="form-label text-light">Descrizione</label>
-            <textarea class="form-control" id="descrizione" name="descrizione"
-                      th:class="${#fields.hasErrors('descrizione')} ? 'form-control is-invalid' : 'form-control'"
-                      th:field="*{descrizione}"></textarea>
-            <div th:if="${#fields.hasErrors('descrizione')}" class="invalid-feedback">
-                <ul>
-                    <li th:each="err : ${#fields.errors('descrizione')}" th:text="${err}"></li>
-                </ul>
+
+        <div class="col-4 mb-3">
+            <h3 class="mb-3 text-light">Ingredienti</h3>
+            <div class="form-check" th:each="ingrediente : ${listaIngredienti}">
+                <input class="form-check-input" type="checkbox" th:value="${ingrediente.id}"
+                       th:id="|ingrediente_${ingrediente.id}"
+                       th:field="*{ingredienti}">
+                <label class="form-check-label text-light" th:for="|ingrediente_${ingrediente.id}"
+                       th:text="${ingrediente.name}">
+
+                </label>
             </div>
         </div>
 
