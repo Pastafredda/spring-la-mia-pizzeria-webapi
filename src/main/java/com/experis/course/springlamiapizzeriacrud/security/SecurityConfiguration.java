@@ -52,6 +52,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
+        //disabilitiamo il csrf per poter fare richieste al di fuori della nostra applicazione
+        http.csrf().disable();
         //la request viene impacchettata e mandata avanti
         return http.build();
     }

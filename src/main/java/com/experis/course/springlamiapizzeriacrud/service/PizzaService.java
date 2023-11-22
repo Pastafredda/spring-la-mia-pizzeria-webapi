@@ -26,6 +26,11 @@ public class PizzaService {
         }
     }
 
+    //metodo per api per la lista di tutte le pizze senza il search
+    public List<Pizza> getPizzaList() {
+        return pizzaRepository.findAll();
+    }
+
     //metodo che restituisce i dettagli della pizza tramite id, se c'è altrimenti eccezione
     public Pizza getPizzaId(Integer id) throws PizzaNotFoundException {
         //optional ci restituisce una "scatola" in cui può esserci o no la pizza

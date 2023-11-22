@@ -1,5 +1,6 @@
 package com.experis.course.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -32,7 +33,11 @@ public class Pizza {
     @DecimalMin(value = "0.01", message = "il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
 
+    //jsonIngore ci serve per ignorare la lista delle offerte nel json
+    //possiamo metterlo o qui o sulla pizza in base a come vogliamo vedere i dati
+    //altrimenti darebbe un errore di ritorsione
     @OneToMany(mappedBy = "pizza", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<OffertaSpeciale> offerteSpeciali = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
