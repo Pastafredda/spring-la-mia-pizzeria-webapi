@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('Pizza Show')"></head>
 <body class="bg-dark">
 <div class="container">
@@ -35,7 +35,8 @@
         <section>
             <div class="d-flex align-items-center my-4">
                 <h2 class="text-light">Offerte speciali</h2>
-                <a class="mx-4 fs-3" th:href="@{/offerte/create(pizzaId=*{id})}"><i class="fa-solid fa-circle-plus"></i></a>
+                <a sec:authorize="hasAuthority('ADMIN')" class="mx-4 fs-3"
+                   th:href="@{/offerte/create(pizzaId=*{id})}"><i class="fa-solid fa-circle-plus"></i></a>
             </div>
 
             <table class="table">
@@ -44,8 +45,8 @@
                     <th>Nome offerta</th>
                     <th>Inizio offerta</th>
                     <th>Fine offerta</th>
-                    <th>Modifica</th>
-                    <th>Elimina</th>
+                    <th sec:authorize="hasAuthority('ADMIN')">Modifica</th>
+                    <th sec:authorize="hasAuthority('ADMIN')">Elimina</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,10 +54,11 @@
                     <td th:text="*{titolo}"></td>
                     <td th:text="*{dataInizio}"></td>
                     <td th:text="*{dataFine}"></td>
-                    <td><a th:href="@{/offerte/edit/{id}(id=*{id})}" class="btn btn-primary" title="modifica"><i
+                    <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/offerte/edit/{id}(id=*{id})}"
+                                                                 class="btn btn-primary" title="modifica"><i
                             class="fa-solid fa-mortar-pestle"></i></a>
                     </td>
-                    <td>
+                    <td sec:authorize="hasAuthority('ADMIN')">
                         <form method="POST" th:action="@{/offerte/delete/{id}(id=*{id})}"
                               onsubmit="return confirm('Vuoi davvero eliminare?')">
                             <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>

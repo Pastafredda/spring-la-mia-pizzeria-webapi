@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('Pizza List')"></head>
 <body class="bg-dark">
 <div class="container">
@@ -9,10 +9,11 @@
     </div>
     <div class="d-flex justify-content-between align-items-center my-4">
         <h1 class="text-light">Lista di pizze</h1>
-        <h2 class="text-light">Vai alla <a th:href="@{/ingredienti}" class="btn btn-primary">lista degli
+        <h2 sec:authorize="hasAuthority('ADMIN')" class="text-light">Vai alla <a th:href="@{/ingredienti}"
+                                                                                 class="btn btn-primary">lista degli
             ingredienti</a></h2>
     </div>
-    <a th:href="@{/pizze/create}" class="btn btn-primary">Nuova pizza</a>
+    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/pizze/create}" class="btn btn-primary">Nuova pizza</a>
     <hr>
     <form th:action="@{/pizze}" method="GET">
         <div class="input-group">
@@ -34,8 +35,8 @@
             <th>Descrizione</th>
             <th>Prezzo</th>
             <th>Dettagli</th>
-            <th>Modifica</th>
-            <th>Elimina</th>
+            <th sec:authorize="hasAuthority('ADMIN')">Modifica</th>
+            <th sec:authorize="hasAuthority('ADMIN')">Elimina</th>
         </tr>
         </thead>
         <tbody>
@@ -46,10 +47,11 @@
             <td><a th:href="@{/pizze/show/{id}(id=*{id})}" class="btn btn-primary" title="dettagli"><i
                     class="fa-solid fa-pizza-slice"></i></a>
             </td>
-            <td><a th:href="@{/pizze/edit/{id}(id=*{id})}" class="btn btn-primary" title="modifica"><i
+            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/pizze/edit/{id}(id=*{id})}" class="btn btn-primary"
+                                                         title="modifica"><i
                     class="fa-solid fa-mortar-pestle"></i></a>
             </td>
-            <td>
+            <td sec:authorize="hasAuthority('ADMIN')">
                 <form method="POST" th:action="@{/pizze/delete/{id}(id=*{id})}"
                       onsubmit="return confirm('Vuoi davvero eliminare?')">
                     <button type="submit" class="btn btn-danger"><i class="fa-solid fa-minus"></i></button>

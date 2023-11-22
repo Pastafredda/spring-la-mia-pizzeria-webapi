@@ -2,6 +2,7 @@ package com.experis.course.springlamiapizzeriacrud.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -40,11 +41,15 @@ public class SecurityConfiguration {
     //securityFilterChain ci serve per capire chi può visualizzare e chi no
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //in queste 5 righe di codice diciamo
+        //filtriamo le rotte per users e admin
+        //users accede solo alla lista e ai dettagli delle pizze
         http
                 .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/ingredienti/**").hasAuthority("ADMIN")
+                .requestMatchers("/offerte/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/pizze/**").hasAuthority("ADMIN")
+                .requestMatchers("/pizze", "/pizze/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
         //la request viene impacchettata e mandata avanti
