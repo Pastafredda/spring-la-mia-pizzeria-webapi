@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="topNavbar(area)" class="navbar navbar-expand-lg bg-primary navbar-dark d-flex justify-content-end">
+    <div class="text-light px-4">
+        Ciao <span sec:authentication="name"></span>
+        <a th:href="@{/logout}" class="btn btn-light">Logout</a>
+    </div>
+</nav>
+</body>
+</html>
