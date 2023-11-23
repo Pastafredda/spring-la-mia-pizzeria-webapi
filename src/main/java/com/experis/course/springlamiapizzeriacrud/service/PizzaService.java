@@ -57,7 +57,7 @@ public class PizzaService {
     //metodo per salvare una pizza già presente e modificarla
     public Pizza savePizzaEdit(Pizza pizza) throws PizzaNotFoundException {
         Pizza pizzaToEdit = getPizzaId(pizza.getId());
-        return pizzaRepository.save(pizzaToEdit);
+        return pizzaRepository.save(pizza);
     }
 
 
