@@ -46,10 +46,20 @@ public class PizzaService {
     }
 
 
-    //metodo per salvare la pizza nel database, la usiamo sia nella edit che create
-    public Pizza savePizza(Pizza pizza) {
+    //metodo per salvare la pizza nel database
+    public Pizza savePizzaCreate(Pizza pizza) {
+        //setid a null per quando cerchiamo di creare una pizza con id settato
+        //ci aumenta l'id dal database senza riscrivere l'id
+        pizza.setId(null);
         return pizzaRepository.save(pizza);
     }
+
+    //metodo per salvare una pizza già presente e modificarla
+    public Pizza savePizzaEdit(Pizza pizza) throws PizzaNotFoundException {
+        Pizza pizzaToEdit = getPizzaId(pizza.getId());
+        return pizzaRepository.save(pizzaToEdit);
+    }
+
 
     //metodo per eliminare una pizza
     public void deletePizza(Integer id) {

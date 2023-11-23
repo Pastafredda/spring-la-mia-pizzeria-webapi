@@ -63,6 +63,7 @@ public class PizzaController {
     //modelattribute per ricaricare la pagina con i dati sbagliati inseriti dall'utente(l'attributo pizza che abbiamo inserito nel controller sopra)
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             //richiamo la lista degli ingredienti se ho degli errori tramite model
             model.addAttribute("listaIngredienti", ingredienteService.getAll());
@@ -70,7 +71,7 @@ public class PizzaController {
             return "pizzas/create";
         }
         //salvo il libro sul database tramite pizzaservice
-        Pizza savedPizza = pizzaService.savePizza(formPizza);
+        Pizza savedPizza = pizzaService.savePizzaCreate(formPizza);
         return "redirect:/pizze";
     }
 
@@ -99,7 +100,7 @@ public class PizzaController {
             return "pizzas/edit";
         }
         try {
-            Pizza savedPizza = pizzaService.savePizza(formPizza);
+            Pizza savedPizza = pizzaService.savePizzaEdit(formPizza);
             return "redirect:/pizze/show/" + savedPizza.getId();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id della pizza " + id + " non è stato trovato");

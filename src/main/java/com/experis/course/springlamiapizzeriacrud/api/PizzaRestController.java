@@ -3,6 +3,7 @@ package com.experis.course.springlamiapizzeriacrud.api;
 import com.experis.course.springlamiapizzeriacrud.exception.PizzaNotFoundException;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.service.PizzaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,25 @@ public class PizzaRestController {
 
     //creazione nuova pizza
     //requestBody mi permette di creare un oggetto json
+    //tramite questo metodo possiamo creare anche nuovi ingredienti
     @PostMapping
-    public Pizza create(@RequestBody Pizza pizza) {
-        return pizzaService.savePizza(pizza);
+    public Pizza create(@Valid @RequestBody Pizza pizza) {
+        try {
+            return pizzaService.savePizzaCreate(pizza);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    //modifica della pizza
+    //metodo put
+    @PutMapping("/{id}")
+    public Pizza update(@Valid @RequestBody Pizza pizza, @PathVariable Integer id) {
+        pizza.setId(id);
+        try {
+            return pizzaService.savePizzaEdit(pizza);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }
