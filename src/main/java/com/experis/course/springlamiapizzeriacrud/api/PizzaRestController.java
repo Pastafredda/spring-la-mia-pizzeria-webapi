@@ -35,4 +35,11 @@ public class PizzaRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id della pizza " + id + " non è stato trovato");
         }
     }
+
+    //creazione nuova pizza
+    //requestBody mi permette di creare un oggetto json
+    @PostMapping
+    public Pizza create(@RequestBody Pizza pizza) {
+        return pizzaService.savePizza(pizza);
+    }
 }
