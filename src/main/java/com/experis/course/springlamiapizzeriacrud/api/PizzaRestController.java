@@ -60,4 +60,14 @@ public class PizzaRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        try {
+            Pizza pizzaToDelete = pizzaService.getPizzaId(id);
+            pizzaService.deletePizza(id);
+        } catch (PizzaNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
 }
