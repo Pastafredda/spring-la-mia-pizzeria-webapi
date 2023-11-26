@@ -8,10 +8,12 @@
 
     <h1 class="text-light">Modifica pizza</h1>
     <hr>
+    <!--anche qui ricordarsi enctype-->
     <form th:action="@{/pizze/edit/{id}(id = ${pizza.id})}"
           id="edit-pizza"
           method="POST"
           th:object="${pizza}"
+          enctype="multipart/form-data"
           class="row"
     >
         <div class="col-8 row">
@@ -21,8 +23,9 @@
             <div class="mb-3 col-3" th:insert="fragments/components :: formField('number','Prezzo €', 'prezzo')">
 
             </div>
-            <div class="mb-3 col-7" th:insert="fragments/components :: formField('text','Foto', 'foto')">
-
+            <div class="col-12">
+                <img width="200" th:src="@{/files/cover/{id}(id=*{id})}" alt="">
+                <div class="mb-3 col-7" th:insert="fragments/components :: formField('file','Foto', 'coverFile')"></div>
             </div>
             <div class="mb-3 col-8">
                 <label for="descrizione" class="form-label text-light">Descrizione</label>

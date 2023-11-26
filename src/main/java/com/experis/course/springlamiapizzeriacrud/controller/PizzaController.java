@@ -1,5 +1,6 @@
 package com.experis.course.springlamiapizzeriacrud.controller;
 
+import com.experis.course.springlamiapizzeriacrud.dto.PizzaDto;
 import com.experis.course.springlamiapizzeriacrud.exception.PizzaNotFoundException;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.service.IngredienteService;
@@ -10,10 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -52,7 +55,8 @@ public class PizzaController {
     //richiamiamo la lista di tutti gli ingredienti dal service
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("pizza", new Pizza());
+        //passo pizzaDto al posto di pizza per il file foto
+        model.addAttribute("pizza", new PizzaDto());
         model.addAttribute("listaIngredienti", ingredienteService.getAll());
         return "pizzas/create";
     }
@@ -62,7 +66,8 @@ public class PizzaController {
     //bindingResult ci permette ci catchare gli errori
     //modelattribute per ricaricare la pagina con i dati sbagliati inseriti dall'utente(l'attributo pizza che abbiamo inserito nel controller sopra)
     @PostMapping("/create")
-    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+    //anche qui passiamo nelle parentesi pizzadto al posto di pizza per il file della foto
+    public String store(@Valid @ModelAttribute("pizza") PizzaDto formPizza, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             //richiamo la lista degli ingredienti se ho degli errori tramite model
@@ -71,7 +76,12 @@ public class PizzaController {
             return "pizzas/create";
         }
         //salvo il libro sul database tramite pizzaservice
-        Pizza savedPizza = pizzaService.savePizzaCreate(formPizza);
+        //metto in un try catch e uso la funzione dto che ho creato per il file
+        try {
+            Pizza savedPizza = pizzaService.pizzaDtoCreate(formPizza);
+        } catch (IOException e) {
+            bindingResult.addError(new FieldError("pizza", "coverFile", null, false, null, null, "impossibile vedere il file"));
+        }
         return "redirect:/pizze";
     }
 
@@ -80,7 +90,8 @@ public class PizzaController {
     public String edit(@PathVariable Integer id, Model model) {
         try {
             //aggiunta pizza come attributo model
-            model.addAttribute("pizza", pizzaService.getPizzaId(id));//utilizzo il metodo nel service per recuperare l'id
+            //in aggiunta il metodo pizzaDto richiamo getPizzaDtoById invece di getPizzaId
+            model.addAttribute("pizza", pizzaService.getPizzaDtoById(id));//utilizzo il metodo nel service per recuperare l'id
             model.addAttribute("listaIngredienti", ingredienteService.getAll()); //richiamo la lista di ingredienti come nella create
             //restituiamo il template di modifica
             return "pizzas/edit";
@@ -92,7 +103,8 @@ public class PizzaController {
 
     //metodo che riceve il submit e salva le modifiche
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+    //anche qui nelle parentesi mettiamo pizzaDto e non pizza
+    public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") PizzaDto formPizza, BindingResult bindingResult, Model model) {
         //valido la pizza
         if (bindingResult.hasErrors()) {
             //richiamo la lista degli ingredienti se ho degli errori tramite model
@@ -100,10 +112,14 @@ public class PizzaController {
             return "pizzas/edit";
         }
         try {
-            Pizza savedPizza = pizzaService.savePizzaEdit(formPizza);
+            //cambio savePizzaEdit in pizzaDtoEdit
+            Pizza savedPizza = pizzaService.pizzaDtoEdit(formPizza);
             return "redirect:/pizze/show/" + savedPizza.getId();
-        } catch (Exception e) {
+        } catch (PizzaNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "id della pizza " + id + " non è stato trovato");
+        } catch (IOException e) {
+            bindingResult.addError(new FieldError("pizza", "coverFile", null, false, null, null, "impossibile vedere il file"));
+            return "pizzas/edit";
         }
     }
 

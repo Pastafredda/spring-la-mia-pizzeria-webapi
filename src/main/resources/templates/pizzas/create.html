@@ -8,11 +8,13 @@
 <div class="container">
 
     <h1 class="text-light">Inserisci una nuova pizza</h1>
+    <!--per passare dei file dobbiamo aggiungere enctype multipart/form-data-->
     <form
             id="pizza-create"
             method="POST"
             th:action="@{/pizze/create}"
             th:object="${pizza}"
+            enctype="multipart/form-data"
             class="row"
     >
         <div class="col-8 row">
@@ -23,7 +25,7 @@
             <div class="mb-3 col-3" th:insert="fragments/components :: formField('number','Prezzo €', 'prezzo')">
 
             </div>
-            <div class="mb-3 col-7" th:insert="fragments/components :: formField('text','Foto', 'foto')">
+            <div class="mb-3 col-7" th:insert="fragments/components :: formField('file','Foto', 'coverFile')">
 
             </div>
             <div class="mb-3 col-8">

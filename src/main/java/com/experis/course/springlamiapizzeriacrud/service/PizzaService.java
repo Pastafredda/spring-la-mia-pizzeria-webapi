@@ -1,11 +1,13 @@
 package com.experis.course.springlamiapizzeriacrud.service;
 
+import com.experis.course.springlamiapizzeriacrud.dto.PizzaDto;
 import com.experis.course.springlamiapizzeriacrud.exception.PizzaNotFoundException;
 import com.experis.course.springlamiapizzeriacrud.model.Pizza;
 import com.experis.course.springlamiapizzeriacrud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,10 +56,69 @@ public class PizzaService {
         return pizzaRepository.save(pizza);
     }
 
+    public Pizza pizzaDtoCreate(PizzaDto pizzaDto) throws IOException {
+        Pizza pizza = convertDtoToPizza(pizzaDto);
+        //chiamo il metodo che salva la pizza su db
+        return savePizzaCreate(pizza);
+    }
+
+    private static Pizza convertDtoToPizza(PizzaDto pizzaDto) throws IOException {
+        //converto pizzaDto in pizza
+        Pizza pizza = new Pizza();
+        pizza.setName(pizzaDto.getName());
+        pizza.setDescrizione(pizzaDto.getDescrizione());
+        pizza.setIngredienti(pizzaDto.getIngredienti());
+        pizza.setPrezzo(pizzaDto.getPrezzo());
+        pizza.setId(pizzaDto.getId());
+        //per la cover
+        //se non è nullo e se non è vuoto
+        if (pizzaDto.getCoverFile() != null && !pizzaDto.getCoverFile().isEmpty()) {
+            //trasformo il multipartFile in byte[]
+            byte[] bytes = pizzaDto.getCoverFile().getBytes();
+            pizza.setFoto(bytes);
+        }
+        return pizza;
+    }
+
     //metodo per salvare una pizza già presente e modificarla
     public Pizza savePizzaEdit(Pizza pizza) throws PizzaNotFoundException {
         Pizza pizzaToEdit = getPizzaId(pizza.getId());
-        return pizzaRepository.save(pizza);
+        
+        pizzaToEdit.setName(pizza.getName());
+        pizzaToEdit.setDescrizione(pizza.getDescrizione());
+        pizzaToEdit.setIngredienti(pizza.getIngredienti());
+        pizzaToEdit.setPrezzo(pizza.getPrezzo());
+        if (pizza.getFoto() != null && pizza.getFoto().length > 0) {
+            pizzaToEdit.setFoto(pizza.getFoto());
+        }
+        return pizzaRepository.save(pizzaToEdit);
+    }
+
+    public Pizza pizzaDtoEdit(PizzaDto pizzaDto) throws IOException {
+        //converto pizzaDto in pizza
+        Pizza pizza = convertDtoToPizza(pizzaDto);
+        //salvo pizza sul database
+        //passando al metodo savePizzaEdit la pizza convertita
+        return savePizzaEdit(pizza);
+    }
+
+    //creo un metodo per prendere l'id da pizzaDto
+    public PizzaDto getPizzaDtoById(Integer id) throws PizzaNotFoundException {
+        //prendo la pizza dal database
+        Pizza pizza = getPizzaId(id);
+        return convertPizzaToDto(pizza);
+    }
+
+    //per edit metodo contrario ovvero converto pizza in pizzaDto
+    private static PizzaDto convertPizzaToDto(Pizza pizza) {
+        //converto pizzaDto in pizza
+        PizzaDto pizzaDto = new PizzaDto();
+        pizzaDto.setName(pizza.getName());
+        pizzaDto.setDescrizione(pizza.getDescrizione());
+        pizzaDto.setIngredienti(pizza.getIngredienti());
+        pizzaDto.setPrezzo(pizza.getPrezzo());
+        pizzaDto.setId(pizza.getId());
+        return pizzaDto;
     }
 
 

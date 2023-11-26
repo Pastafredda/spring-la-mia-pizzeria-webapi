@@ -17,7 +17,7 @@
                 <li class="text-light">Descrizione</li>
                 <li th:text="*{descrizione}" class="text-light"></li>
                 <li class="text-light">Foto</li>
-                <li><img style="height:120px" th:src="*{foto}" alt=""></li>
+                <li><img style="height:120px" th:src="@{/files/cover/{pizzaId}(pizzaId=*{id})}" alt=""></li>
                 <li class="text-light">€</li>
                 <li th:text="|*{prezzo} €|" class="text-light"></li>
             </ul>

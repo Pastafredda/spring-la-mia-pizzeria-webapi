@@ -26,9 +26,10 @@ public class Pizza {
     @NotBlank(message = "La descrizione non può essere vuota")
     @Size(min = 3, max = 255, message = "inserisci una descrizione tra i 3 e i 255 caratteri")
     private String descrizione;
+
     @Lob
-    @NotBlank(message = "La foto non può essere vuota")
-    private String foto;
+    @Column(length = 16777215)
+    private byte[] foto;
     @NotNull(message = "Inserisci un valore")
     @DecimalMin(value = "0.01", message = "il prezzo deve essere maggiore di 0")
     private BigDecimal prezzo;
@@ -75,14 +76,6 @@ public class Pizza {
         this.descrizione = descrizione;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public BigDecimal getPrezzo() {
         return prezzo;
     }
@@ -98,4 +91,13 @@ public class Pizza {
     public void setOfferteSpeciali(List<OffertaSpeciale> offerteSpeciali) {
         this.offerteSpeciali = offerteSpeciali;
     }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
 }
+
